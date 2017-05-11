@@ -1,0 +1,11 @@
+.feature-box {
+    width:50%;
+    height:50%;
+    position: absolute;
+    margin: 2rem auto;
+    background-color: rgba(255,255,255,0.3);
+}
+
+img {
+    padding: 2rem;
+}
