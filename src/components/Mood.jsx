@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Alert, Container,  Row, Col, Modal, ModalBody, ModalFooter, ModalHeader, Button} from 'reactstrap';
 import {connect} from 'react-redux';
-import { CookiesProvider, withCookies, Cookies, cookie } from 'react-cookie';
+// import { CookiesProvider, withCookies, Cookies, cookie } from 'react-cookie';
 import WeatherDisplay from 'components/WeatherDisplay.jsx';
 import WeatherForm from 'components/WeatherForm.jsx';
 import {cancelWeather} from 'api/open-weather-map.js';
@@ -197,7 +197,7 @@ class Mood extends React.Component {
     getEndSleepTime() {
         let endSleepTime = new Date();
         this.diff = moment.utc(moment(endSleepTime,"DD/MM/YYYY HH:mm:ss").diff(moment(this.sleepTime,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
-        
+
         var diff = moment.utc(moment(endSleepTime,"DD/MM/YYYY HH:mm:ss").diff(moment(this.sleepTime,"DD/MM/YYYY HH:mm:ss"))).format("X");
         console.log(this.diff);
         this.props.dispatch(getEndSleepTime(endSleepTime,diff));
@@ -215,7 +215,7 @@ class Mood extends React.Component {
             this.props.dispatch(getStartPhoneTime(time));
         } else {
             let time = new Date();
-            this.phoneDiff = moment.utc(moment(time,"DD/MM/YYYY HH:mm:ss").diff(moment(startPhoneTime,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");            
+            this.phoneDiff = moment.utc(moment(time,"DD/MM/YYYY HH:mm:ss").diff(moment(startPhoneTime,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
             var diff = moment.utc(moment(time,"DD/MM/YYYY HH:mm:ss").diff(moment(startPhoneTime,"DD/MM/YYYY HH:mm:ss"))).format("X");
             this.props.dispatch(getEndPhoneTime(time,diff));
             this.props.dispatch(phoneToggle());
@@ -302,7 +302,7 @@ class Mood extends React.Component {
             });
         });
     }
-    
+
     handleCreatePhone(start, diff) {
         //console.log(diff);
         createPhoneTime(start, diff).then(() => {
@@ -311,7 +311,7 @@ class Mood extends React.Component {
             console.error('Error creating phoneTime', err);
         });
     }
-    
+
      listPosts() {
         this.setState({
             postLoading: true
@@ -331,7 +331,7 @@ class Mood extends React.Component {
             });
         });
     }
-    
+
     handleCreatePost(text) {
         console.log(text);
         createPost(text).then(() => {

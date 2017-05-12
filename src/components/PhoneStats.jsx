@@ -30,7 +30,7 @@ export default class PhoneStats extends React.Component {
   }
 
   componentDidMount() {
-    this.listPhoneTime();  
+    this.listPhoneTime();
   }
   listPhoneTime(){
       listPhoneTime().then(data => {
@@ -53,17 +53,18 @@ export default class PhoneStats extends React.Component {
       for(var i = 0;i < 7;i ++){
           //console.log(data[i]);
           var tmp;
-          
+          console.log('dddddddddd',data[i]);
+
           if(data[i] === undefined) tmp = ['No data', 0];
           else{
               console.log('gggg',data[i].date,data[i].end);
               //var diff = moment.utc(moment(data[i].date,"DD/MM/YYYY HH:mm:ss").diff(moment(data[i].end,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
               //console.log(diff);
-               tmp = [data[i].date.slice(5,10), parseInt(data[i].diff)];
+               tmp = [data[i].date.slice(5,10), parseInt(data[i].end)];
           }
           array.push(tmp);
       }
-    
+
     console.log(array);
     return (
       <Chart

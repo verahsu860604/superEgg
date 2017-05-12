@@ -19,7 +19,7 @@ import {createStore, combineReducers, compose, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 // import loggerMiddleware from 'redux-logger';
 import {Provider} from 'react-redux';
-import cookie from 'react-cookie';
+// import cookie from 'react-cookie';
 import Today from 'components/Today.jsx';
 import Forecast from 'components/Forecast.jsx';
 import Mood from 'components/Mood.jsx';
