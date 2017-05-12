@@ -30,10 +30,11 @@ export default class SleepStats extends React.Component {
   }
 
   componentDidMount() {
-    this.listSleepTime();  
+    this.listSleepTime();
   }
   listSleepTime(){
       listSleepTime().then(data => {
+                console.log('sssssssssssssssssssssss',data);
                 this.setState({
                     data
                 });
@@ -63,7 +64,7 @@ export default class SleepStats extends React.Component {
           }
           array.push(tmp);
       }
-    
+
     console.log(array);
     return (
       <Chart
