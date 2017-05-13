@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { Table } from 'reactstrap';
+import "./SleepStats.css";
 import {listSleepTime, createSleepTime} from 'api/sleep.js';
 import {listPhoneTime, createPhoneTime} from 'api/phone.js'
 import { Chart } from 'react-google-charts';
@@ -48,25 +49,60 @@ export default class SleepStats extends React.Component {
   }
 
   render() {
-      console.log(this.state);
+      var longest = 0;
+      var shortest = -1;
+      var sum = 0;
       const data = this.state.data;
-      var array = [['Time to sleep', 'Duration']];
+      var array = [['Time to sleep', 'Duration', { role: 'style' }]];
       for(var i = 0;i < 7;i ++){
-          //console.log(data[i]);
           var tmp;
-          
-          if(data[i] === undefined) tmp = ['No data', 0];
+
+          var color;
+
+
+
+          if(data[i] === undefined) tmp = ['No data', 0 , 'red'];
           else{
-              console.log('gggg',data[i].date,data[i].end);
-              //var diff = moment.utc(moment(data[i].date,"DD/MM/YYYY HH:mm:ss").diff(moment(data[i].end,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
-              //console.log(diff);
-               tmp = [data[i].date.slice(5,10), parseInt(data[i].diff)];
+
+              if(data[i].diff < 6)color = "#FF3333";
+              else if(data[i].diff < 8)color = "#FFDC35";
+              else color = "#00AA00";
+
+              tmp = [data[i].date.slice(5,10), parseInt(data[i].diff), color] ;
+
+               //longest calculation
+               if(data[i].diff > longest) longest = data[i].diff;
+               //shortest calculation
+               if(shortest === -1) {
+                  shortest = data[i].diff;
+               }else if(data[i].diff < shortest) shortest = data[i].diff;
+               //avg. calculation
+
+               sum = sum + parseInt(data[i].diff);
+
+
+               console.log('in sleep stats',i,longest,shortest,sum);
           }
           array.push(tmp);
       }
 
+      var tableStyle = {
+        width: '50%',
+        margin: 'auto',
+        backgroundColor: 'rgba(255, 203, 0, 0.5)'
+      };
+
+      var emptyStyle = {
+        paddingRight: '0'
+      }
+
+
     console.log(array);
     return (
+      <div className="Container">
+      <div className="row">
+      <div className="col-2"></div>
+      <div className="col-8 sss">
       <Chart
         chartType="ColumnChart"
         data={array}
@@ -76,6 +112,29 @@ export default class SleepStats extends React.Component {
         height="400px"
         legend_toggle
       />
+      </div>
+      {/* <div className="col-2" style={emptyStyle}></div> */}
+
+  </div>
+    <br />
+      <Table bordered style={tableStyle} >
+         <thead>
+           <tr>
+             <th>Longest</th>
+             <th>Shortest</th>
+             <th>Average</th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr>
+             <td>{longest}</td>
+             <td>{shortest}</td>
+             <td>{(sum/7).toFixed(3)}</td>
+           </tr>
+         </tbody>
+       </Table>
+
+    </div>
     );
   }
 }

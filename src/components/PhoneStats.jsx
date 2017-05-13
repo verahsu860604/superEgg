@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import "./PhoneStats.css"
+
+import {Alert, Container,  Row, Col, Modal, ModalBody, ModalFooter, ModalHeader, Button,Table} from 'reactstrap';
 
 import {listSleepTime, createSleepTime} from 'api/sleep.js';
 import {listPhoneTime, createPhoneTime} from 'api/phone.js'
@@ -47,26 +50,55 @@ export default class PhoneStats extends React.Component {
   }
 
   render() {
-      console.log(this.state);
+      var longest = 0;
+      var shortest = -1;
+      var sum = 0;
       const data = this.state.data;
-      var array = [['Phone Time', 'Duration']];
+      var array = [['Phone Time', 'Duration',  { role: 'style' }]];
       for(var i = 0;i < 7;i ++){
-          //console.log(data[i]);
           var tmp;
-          console.log('dddddddddd',data[i]);
+          var color;
 
-          if(data[i] === undefined) tmp = ['No data', 0];
+          if(data[i] === undefined) tmp = ['No data', 0, 'red'];
           else{
-              console.log('gggg',data[i].date,data[i].end);
-              //var diff = moment.utc(moment(data[i].date,"DD/MM/YYYY HH:mm:ss").diff(moment(data[i].end,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
-              //console.log(diff);
-               tmp = [data[i].date.slice(5,10), parseInt(data[i].end)];
+
+              if(data[i].end > 30)color = "#FF3333";
+              else if(data[i].end > 15)color = "#FFDC35";
+              else color = "#00AA00";
+
+               tmp = [data[i].date.slice(5,10), parseInt(data[i].end), color];
+
+
+
+               //longest calculation
+               if(data[i].end > longest) longest = data[i].end;
+               //shortest calculation
+               if(shortest === -1) {
+                  shortest = data[i].end;
+               }else if(data[i].end < shortest) shortest = data[i].end;
+               //avg. calculation
+
+               sum = sum + parseInt(data[i].end);
           }
           array.push(tmp);
       }
 
+      var tableStyle = {
+        width: '50%',
+        margin: 'auto',
+        backgroundColor: 'rgba(255, 203, 0, 0.5)'
+      };
+
+      var emptyStyle = {
+        paddingRight: '0'
+      }
+
     console.log(array);
     return (
+      <div className="Container">
+      <div className="row">
+      <div className="col-2"></div>
+      <div className="col-8">
       <Chart
         chartType="ColumnChart"
         data={array}
@@ -76,6 +108,29 @@ export default class PhoneStats extends React.Component {
         height="400px"
         legend_toggle
       />
+      </div>
+      {/* <div className="col-2" style={emptyStyle}></div> */}
+
+  </div>
+    <br />
+      <Table bordered style={tableStyle} >
+         <thead>
+           <tr>
+             <th>Longest</th>
+             <th>Shortest</th>
+             <th>Average</th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr>
+             <td>{longest}</td>
+             <td>{shortest}</td>
+             <td>{(sum/7).toFixed(3)}</td>
+           </tr>
+         </tbody>
+       </Table>
+
+    </div>
     );
   }
 }

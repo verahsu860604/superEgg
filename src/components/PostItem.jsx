@@ -53,7 +53,7 @@ export default class PostItem extends React.Component {
         return (
             <div>
             <div className={this.state.display?'hidden':'text'}>
-                Memo Deleted.    
+                Memo Deleted.
             </div>
             <div className={this.state.display?'post-item d-flex flex-column': 'hidden'}>
                 <div className='post d-flex'>
@@ -73,7 +73,7 @@ export default class PostItem extends React.Component {
                             onClick={this.handleClick}
                         />}
                         </div>
-                        
+
                     <div className='wrap'>
                         <div className='ts'>{moment(ts * 1000).calendar()}</div>
                         <div className='text'>{text}</div>
@@ -87,7 +87,7 @@ export default class PostItem extends React.Component {
                             style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
                             onClick = {this.handleDelete}
                         />
-                    </div>  
+                    </div>
                 </div>
                 </div>
                 {/*<div className='vote d-flex justify-content-end'>
@@ -122,7 +122,7 @@ export default class PostItem extends React.Component {
           check: !this.state.check
         });
     }
-    
+
     handleDelete(){
         if(!this.props.doneTs){
         this.setState({
