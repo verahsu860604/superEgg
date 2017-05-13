@@ -63,8 +63,8 @@ export default class ReminderForm extends React.Component {
                             </DropdownMenu>
                         </ButtonDropdown>*/}
                     </div>
-                    <Input className='input' type='textarea' getRef={el => {this.inputEl = el}} value={this.state.inputValue} onChange={this.handleInputChange} placeholder="What's on your mind?"></Input>
-                    <Button className='btn-post align-self-end' color="warning" onClick={this.handlePost}>Post</Button>
+                    <Input className='input' type='textarea' getRef={el => {this.inputEl = el}} value={this.state.inputValue} onChange={this.handleInputChange} placeholder="明天有什麼待辦事項呢？"></Input>
+                    <Button className='btn-post align-self-end' color="warning" onClick={this.handlePost}>加入清單</Button>
                 </Alert>
             </div>
         );

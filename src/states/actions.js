@@ -77,7 +77,6 @@ export function phoneToggle() {
 
 /* breakFast */
 export function breakFastToggle() {
-    console.log('in actions');
     return {
         type: '@BREAKFAST/TOGGLE',
     }

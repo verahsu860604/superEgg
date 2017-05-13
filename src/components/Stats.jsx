@@ -29,8 +29,8 @@ export default class Stats extends React.Component {
             <div>
               <div className="bbb">
                 <ButtonGroup>
-                    <Button onClick = {this.getSleepChart} color = {color1} >Sleep Time</Button>{' '}
-                    <Button onClick = {this.getPhoneChart} color = {color2} >Phone Time</Button>
+                    <Button onClick = {this.getSleepChart} color = {color1} >睡覺時間</Button>{' '}
+                    <Button onClick = {this.getPhoneChart} color = {color2} >滑手機時間</Button>
                   </ButtonGroup>
               </div>
                 <div>

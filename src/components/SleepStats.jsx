@@ -11,11 +11,17 @@ export default class SleepStats extends React.Component {
     super(props);
     this.state = {
       options: {
-        title: 'Sleep Time record',
-        hAxis: { title: 'Time to sleep', minValue: 0, maxValue: 15 },
-        vAxis: { title: 'Duration', minValue: 0, maxValue: 15 },
+        title: '睡眠時間紀錄',
+        hAxis: { title: '入睡時間', minValue: 0, maxValue: 15 },
+        vAxis: { title: '睡眠長度(hr)', minValue: 0, maxValue: 15 },
         legend: 'none',
       },
+      // options: {
+      //   title: 'Sleep Time record',
+      //   hAxis: { title: 'Time to sleep', minValue: 0, maxValue: 15 },
+      //   vAxis: { title: 'Duration', minValue: 0, maxValue: 15 },
+      //   legend: 'none',
+      // },
       data: {
         //['Age', 'Weight'],
         // [8, 12],
@@ -35,7 +41,7 @@ export default class SleepStats extends React.Component {
   }
   listSleepTime(){
       listSleepTime().then(data => {
-                console.log('sssssssssssssssssssssss',data);
+
                 this.setState({
                     data
                 });
@@ -81,7 +87,7 @@ export default class SleepStats extends React.Component {
                sum = sum + parseInt(data[i].diff);
 
 
-               console.log('in sleep stats',i,longest,shortest,sum);
+
           }
           array.push(tmp);
       }
@@ -97,7 +103,6 @@ export default class SleepStats extends React.Component {
       }
 
 
-    console.log(array);
     return (
       <div className="Container">
       <div className="row">
@@ -109,7 +114,7 @@ export default class SleepStats extends React.Component {
         options={this.state.options}
         graph_id="ScatterChart"
         width="100%"
-        height="400px"
+        height="350px"
         legend_toggle
       />
       </div>
@@ -120,9 +125,9 @@ export default class SleepStats extends React.Component {
       <Table bordered style={tableStyle} >
          <thead>
            <tr>
-             <th>Longest</th>
-             <th>Shortest</th>
-             <th>Average</th>
+             <th>最長睡眠時間</th>
+             <th>最短睡眠時間</th>
+             <th>平均睡眠時間</th>
            </tr>
          </thead>
          <tbody>

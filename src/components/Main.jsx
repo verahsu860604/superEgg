@@ -66,32 +66,47 @@ export default class Main extends React.Component {
                             <div className='container'>
                                 <Navbar color='faded' light toggleable>
                                     <NavbarToggler right onClick={this.handleNavbarToggle}/>
-                                    <NavbarBrand className='text-info' href="/">WeatherMood</NavbarBrand>
-                                    <Collapse isOpen={this.state.navbarToggle} navbar>
-                                        <Nav navbar>
-                                            {/* <NavItem>
-                                                <NavLink tag={Link} to='/'>Today</NavLink>
-                                            </NavItem>
-                                            <NavItem>
-                                                <NavLink tag={Link} to='/forecast'>Forecast</NavLink>
-                                            </NavItem> */}
+                                    <NavbarBrand className='text-info' href="/"><span id="super">超</span><span id="superr">營養蛋餅</span></NavbarBrand>
+                                    <Collapse isOpen={this.state.navbarToggle} navbar className="d-flex flex-row-reverse">
+                                        {/* <Nav navbar>
                                             <NavItem>
                                                 <NavLink tag={Link} to='/'>Home</NavLink>
                                             </NavItem>
                                             <NavItem>
                                                 <NavLink tag={Link} to='/stats'>Stats</NavLink>
                                             </NavItem>
-                                        </Nav>
-                                        <div className='search ml-auto'>
+                                        </Nav> */}
+                                        {/* <div className="d-flex flex-row-reverse"> */}
+                                          <div className="p-2">
+                                            <Nav tabs id="navv">
+                                              <NavItem active>
+                                                <NavLink tag={Link} to='/'>主頁</NavLink>
+                                              </NavItem>
+                                              <NavItem>
+                                                <NavLink tag={Link} to='/stats'>數據</NavLink>
+                                              </NavItem>
+                                              <NavItem>
+                                                <NavLink tag={Link} to='/stats'>English</NavLink>
+                                              </NavItem>
+                                            </Nav>
+                                          {/* </div> */}
+
+
+
+                                        </div>
+
+                                        {/* <div className='search ml-auto'>
                                             <Input className='ml-auto' type='text' getRef={this.searchEl} placeholder='Search' onKeyPress={this.handleSearchKeyPress} getRef={e => this.searchEl = e}></Input>{
                                                 this.state.searchText &&
                                                 <i className='navbar-text fa fa-times' onClick={this.handleClearSearch}></i>
                                             }
-                                        </div>
+                                        </div> */}
                                     </Collapse>
                                 </Navbar>
+
                             </div>
-                        </div>
+                            </div>
+
 
                         {/* <Route exact path="/" render={() => (
                             <Today searchText={this.state.searchText} />
@@ -108,7 +123,7 @@ export default class Main extends React.Component {
                         {/*<div className='footer'>
                             DataLab.
                         </div>*/}
-                    </div>
+                      </div>
                 </Router>
             </Provider>
         );

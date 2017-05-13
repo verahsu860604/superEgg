@@ -12,10 +12,16 @@ export default class PhoneStats extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // options: {
+      //   title: 'Phone Time record',
+      //   hAxis: { title: 'Time phoning', minValue: 0, maxValue: 15 },
+      //   vAxis: { title: 'Duration', minValue: 0, maxValue: 15 },
+      //   legend: 'none',
+      // },
       options: {
-        title: 'Phone Time record',
-        hAxis: { title: 'Time phoning', minValue: 0, maxValue: 15 },
-        vAxis: { title: 'Duration', minValue: 0, maxValue: 15 },
+        title: '滑手機時間紀錄',
+        hAxis: { title: '開始時間', minValue: 0, maxValue: 15 },
+        vAxis: { title: '時間長度(min)', minValue: 0, maxValue: 15 },
         legend: 'none',
       },
       data: {
@@ -93,7 +99,7 @@ export default class PhoneStats extends React.Component {
         paddingRight: '0'
       }
 
-    console.log(array);
+  
     return (
       <div className="Container">
       <div className="row">
@@ -105,7 +111,7 @@ export default class PhoneStats extends React.Component {
         options={this.state.options}
         graph_id="ScatterChart"
         width="100%"
-        height="400px"
+        height="350px"
         legend_toggle
       />
       </div>
@@ -116,9 +122,9 @@ export default class PhoneStats extends React.Component {
       <Table bordered style={tableStyle} >
          <thead>
            <tr>
-             <th>Longest</th>
-             <th>Shortest</th>
-             <th>Average</th>
+             <th>最長滑手機時間</th>
+             <th>最短滑手機時間</th>
+             <th>平均滑手機時間</th>
            </tr>
          </thead>
          <tbody>

@@ -17,6 +17,7 @@ import {getStartSleepTime, getEndSleepTime, getStartPhoneTime, getEndPhoneTime, 
 import {listReminders, createReminders} from 'api/reminder.js'
 import {listSleepTime, createSleepTime} from 'api/sleep.js';
 import {listPhoneTime, createPhoneTime} from 'api/phone.js'
+var FontAwesome = require('react-fontawesome');
 class Mood extends React.Component {
     static propTypes = {
         city: PropTypes.string,
@@ -65,8 +66,8 @@ class Mood extends React.Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(getWeather('Hsinchu', this.props.unit));
-        this.listPosts(this.props.searchText);
+        // this.props.dispatch(getWeather('Hsinchu', this.props.unit));
+        // this.listPosts(this.props.searchText);
         this.getLocation();
     }
 
@@ -77,26 +78,39 @@ class Mood extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.searchText !== this.props.searchText) {
-            this.listPosts(nextProps.searchText);
-        }
+        // if (nextProps.searchText !== this.props.searchText) {
+        //     this.listPosts(nextProps.searchText);
+        // }
     }
 
     render() {
         const {city, group, description, temp, unit, masking} = this.props;
         const {posts, postLoading} = this.state;
         const {startSleepTime, endSleepTime} = this.props;
-        console.log(this.state);
+
         document.body.className = `weather-bg ${group}`;
         document.querySelector('.weather-bg .mask').className = `mask ${masking ? 'masking' : ''}`;
-
+        var status;
+        if(this.props.phone) status = '正在滑手機，好不乖';
+        else if(this.props.sleep) status = '正在睡覺ㄎㄎ';
+        else status = '醒者';
         if(this.breakFast === 1)this.breakfast = '超營養蛋餅';
         else if(this.breakFast === 2)this.breakfast = '超營養三角飯糰';
         else if(this.breakFast === 3)this.breakfast = '超營養蔥抓絣';
-        else if(this.breakFast === 4)this.breakfast = '超營養吐司';
+        else if(this.breakFast === 4)this.breakfast = '超營養三明治';
         else if(this.breakFast === 5)this.breakfast = '超營養鐵板麵';
-        else if(this.breakFast === 6)this.breakfast = '超營養薯餅';
+        else if(this.breakFast === 6)this.breakfast = '超營養饅頭';
         else if(this.breakFast === 7)this.breakfast = '超營養漢堡';
+        var bbimg;
+        if(this.breakFast === 1)bbimg = 'images/1.jpg';
+        else if(this.breakFast === 2)bbimg = 'images/2.jpg';
+        else if(this.breakFast === 3)bbimg = 'images/3.jpg';
+        else if(this.breakFast === 4)bbimg = 'images/4.JPG';
+        else if(this.breakFast === 5)bbimg = 'images/5.jpg';
+        else if(this.breakFast === 6)bbimg = 'images/6.jpg';
+        else if(this.breakFast === 7)bbimg = 'images/7.jpg';
+
+
 
         return (
             /*<div className='today'>
@@ -125,12 +139,14 @@ class Mood extends React.Component {
               <Row>
                 <Col>
                   <div id="buttongroup">
-                     <Button color="warning" onClick = {this.getEndSleepTime} id="icon1" ><img src={`images/icon3.png`} id="image1"/></Button>
+                     <Button color="warning" onClick = {this.getEndSleepTime} id="icon1" ><img src={`images/icon-eat.png`} id="image1"/></Button>
 
                      <Modal isOpen={this.props.breakFastToggle} toggle={this.toggle} className={this.props.className}>
                         <ModalHeader toggle={this.toggle}>早上吃早餐 頭好壯壯</ModalHeader>
                         <ModalBody>
                             推薦早餐：{this.breakfast}
+                            <br />
+                            <img src={bbimg} id="b"/>
                         </ModalBody>
                         <ModalFooter>
                             <Button color="secondary" onClick={this.breakfastToggle}>X</Button>
@@ -159,37 +175,67 @@ class Mood extends React.Component {
                     </Modal>
 
 
-                     <Button color="warning" onClick = {this.phoneTime} id="icon3" ><img src={`images/icon1.png`} id="image3"/></Button>
+                     <Button color="warning" onClick = {this.phoneTime} id="icon3" ><img src={this.props.phone?`images/icon1.png`:`images/icon_phone.png`} id="image3"/></Button>
 
                      <Modal isOpen={this.props.phoneToggle} toggle={this.toggle} className={this.props.className}>
-                        <ModalHeader toggle={this.toggle}>Total Phone Time</ModalHeader>
+                        <ModalHeader toggle={this.toggle}>滑完手機該睡覺囉！</ModalHeader>
                         <ModalBody>
-                            {this.phoneDiff}
+                          <FontAwesome
+                              className='super-crazy-colors'
+                              name='clock-o'
+                              size='2x'
+                              spin
+                              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+                            />
+                            &nbsp;&nbsp;
+                            今天滑了 {this.phoneDiff}
                         </ModalBody>
                         <ModalFooter>
                             <Button color="secondary" onClick={this.phoneToggle}>X</Button>
                         </ModalFooter>
                     </Modal>
-                     <Button color="warning" id="icon4" onClick = {this.getStartSleepTime}><img src={`images/icon2.png`} id="image4"/></Button>
+                     <Button color="warning" id="icon4" onClick = {this.getStartSleepTime}><img src={this.props.sleep?`images/icon3.png`:`images/icon2.png`} id="image4"/></Button>
                      <Modal isOpen={this.props.sleepToggle} toggle={this.toggle} className={this.props.className}>
-                        <ModalHeader toggle={this.toggle}>Total Sleep Time</ModalHeader>
+                        <ModalHeader toggle={this.toggle}>早安！記得看待辦事項！</ModalHeader>
                         <ModalBody>
-                            {this.diff}
+                          <FontAwesome
+                              className='super-crazy-colors'
+                              name='clock-o'
+                              size='2x'
+                              spin
+                              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+                            />
+                            &nbsp;&nbsp;今天睡了 {this.diff}
+                            <br />
+                            <div className={`weather-display `}>
+                                <img src={`images/w-${this.props.group}.png`}/>
+                                <p className='description'>{`${this.props.description}`}</p>
+                                <h1 className='temp'>
+                                    <span className='display-3'>{this.props.temp.toFixed(0)}&ordm;</span>
+                                    &nbsp;{(this.props.unit === 'metric')
+                                        ? 'C'
+                                        : 'F'}
+                                </h1>
+                            </div>
                         </ModalBody>
                         <ModalFooter>
                             <Button color="secondary" onClick={this.sleepToggle}>X</Button>
                         </ModalFooter>
                     </Modal>
                 </div>
+                <br />
+                <Alert color="success">
+                    <strong>現在狀態:</strong>&nbsp;&nbsp;{status}
+                </Alert>
 </Col>
 <Col>
 
 
                     <ReminderForm onPost={this.handleCreatePost} />
-                    <PostList posts={posts} onVote={this.handleCreateVote} />{
-                        postLoading &&
-                        <Alert color='warning' className='loading'>Loading...</Alert>
-                    }
+                    <PostList posts={posts} onVote={this.handleCreateVote} />
+                        {/* // postLoading &&
+                        // <Alert color='warning' className='loading'>Loading...</Alert> */}
+
                   </Col>
                 </Row>
                     <Row>
@@ -197,6 +243,7 @@ class Mood extends React.Component {
                     &nbsp;
                     </Col>
                     </Row>
+
                     </Container>
             </div>
 
@@ -230,7 +277,6 @@ class Mood extends React.Component {
           this.diff = moment.utc(moment(endSleepTime,"DD/MM/YYYY HH:mm:ss").diff(moment(this.sleepTime,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
 
           var diff = moment.utc(moment(endSleepTime,"DD/MM/YYYY HH:mm:ss").diff(moment(this.sleepTime,"DD/MM/YYYY HH:mm:ss"))).format("X");
-          console.log(this.diff);
           this.props.dispatch(getEndSleepTime(endSleepTime,diff));
           this.props.dispatch(sleepToggle());
           // var x = moment(this.sleepTime,"DD/MM");
@@ -243,12 +289,13 @@ class Mood extends React.Component {
     getEndSleepTime() {
         // 蛋餅、漢堡、吐司、三角飯糰、薯餅、蔥抓餅、鐵板麵
         this.breakFast = Math.floor((Math.random() * 7) + 1);
-        console.log(this.breakFast);
+
         this.props.dispatch(breakFastToggle());
     }
 
     phoneTime() {
         //console.log(this.props.phone + '!!');
+        if(!this.props.sleep){
         const {phone, startPhoneTime, endPhoneTime, totalPhoneTime} = this.props;
         if (phone == false) {
             let time = new Date();
@@ -260,6 +307,7 @@ class Mood extends React.Component {
             this.props.dispatch(getEndPhoneTime(time,diff));
             this.props.dispatch(phoneToggle());
             this.handleCreatePhone(this.props.startPhoneTime, diff);
+        }
         }
     }
 
@@ -373,7 +421,7 @@ class Mood extends React.Component {
     }
 
     handleCreatePost(text) {
-        console.log(text);
+
         createPost(text).then(() => {
             this.listPosts();
         }).catch(err => {

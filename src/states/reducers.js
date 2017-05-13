@@ -79,7 +79,6 @@ const initBreakFast = {
 export function breakFast(state = initBreakFast, action) {
     switch (action.type) {
         case '@BREAKFAST/TOGGLE':
-            console.log('in reducers');
             return {
                 ...state,
                 breakFastToggle: !state.breakFastToggle,

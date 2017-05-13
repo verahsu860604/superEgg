@@ -31,9 +31,8 @@ const weatherBaseUrl = `http://api.openweathermap.org/data/2.5/weather?appid=${k
 let weatherSource = axios.CancelToken.source();
 
 export function getWeather(lat,lon, unit) {
-    
+
     //var url = `${weatherBaseUrl}&lat=${lat}&lon=${lon}}&units=metric`;
-    console.log(unit, '!!');
     var url = `${weatherBaseUrl}&lat=${lat}&lon=${lon}&units=${unit}`;
     //var url = `${weatherBaseUrl}&q=${encodeUROIComponent(city)}&units=${unit}`;
     console.log(`Making request to: ${url}`);
@@ -41,8 +40,7 @@ export function getWeather(lat,lon, unit) {
     return axios.get(url, {cancelToken: weatherSource.token}).then(function(res) {
         if (res.data.cod && res.data.message)
             throw new Error(res.data.message);
-        
-        console.log(res.data.name);
+
         return {
             city: res.data.name,
             code: res.data.weather[0].id,
