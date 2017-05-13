@@ -23,6 +23,7 @@
     "react-addons-transition-group": "^15.4.2",
     "react-dom": "^15.5.3",
     "react-fontawesome": "^1.6.1",
+    "react-google-charts": "^1.5.5",
     "react-redux": "^5.0.4",
     "react-router-dom": "^4.0.0",
     "reactstrap": "^4.5.0",
