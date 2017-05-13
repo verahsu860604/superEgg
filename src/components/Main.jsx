@@ -24,7 +24,7 @@ import Today from 'components/Today.jsx';
 import Forecast from 'components/Forecast.jsx';
 import Mood from 'components/Mood.jsx';
 import {unit, weather, weatherForm, forecast} from 'states/weather-reducers.js';
-import {sleep, phone} from 'states/reducers.js';
+import {sleep, phone, breakFast} from 'states/reducers.js';
 import Stats from 'components/Stats.jsx';
 import './Main.css';
 
@@ -52,7 +52,8 @@ export default class Main extends React.Component {
             weatherForm,
             forecast,
             sleep,
-            phone
+            phone,
+            breakFast
         }), composeEnhancers(applyMiddleware(thunkMiddleware/*, loggerMiddleware*/)));
     }
 

@@ -1,37 +1,10 @@
-// weather
-// const initWeatherState = {
-//     code: -1,
-//     temp: NaN,
-//     location: 'na'
-// };
-
-// export function weather(state = initWeatherState, action) {
-//     switch (action.type) {
-//         case '@WEATHER/START_GET_WEATHER':
-//             return {
-//                 ...state,
-//                 location: action.location,
-//             };
-//         case '@WEATHER/END_GET_WEATHER':
-//             return {
-//                 ...state,
-//                 location: action.location,
-//                 code: action.code,
-//                 temp: action.temp,
-//             };
-//         default:
-//             return {
-//                 ...state,
-//             };
-//     }
-// }
-
 // sleep
 const initSleepState = {
     startSleepTime: 'na',
     endSleepTime: 'na',
     totalSleepTime: 'na',
-    sleepToggle: false
+    sleepToggle: false,
+    sleep: false,  // 0時開始記時間 1時停止記時間
 }
 
 export function sleep(state = initSleepState, action) {
@@ -40,12 +13,14 @@ export function sleep(state = initSleepState, action) {
             return {
                 ...state,
                 startSleepTime: action.startSleepTime,
+                sleep: true,
             };
         case '@SLEEP/GET_END_SLEEP_TIME':
             return {
                 ...state,
                 endSleepTime: action.endSleepTime,
                 totalSleepTime: action.totalSleepTime,
+                sleep: false,
             };
         case '@SLEEP/SLEEP_TOGGLE':
             return {
@@ -88,6 +63,26 @@ export function phone(state = initPhoneState, action) {
             return {
                 ...state,
                 phoneToggle: !state.phoneToggle,
+            };
+        default:
+            return {
+                ...state,
+            };
+    }
+}
+
+//breakFast
+const initBreakFast = {
+    breakFastToggle: false,
+}
+
+export function breakFast(state = initBreakFast, action) {
+    switch (action.type) {
+        case '@BREAKFAST/TOGGLE':
+            console.log('in reducers');
+            return {
+                ...state,
+                breakFastToggle: !state.breakFastToggle,
             };
         default:
             return {

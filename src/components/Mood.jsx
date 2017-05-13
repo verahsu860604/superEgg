@@ -13,7 +13,7 @@ import {listPosts, createPost, createVote} from 'api/posts.js';
 import ReminderForm from 'components/ReminderForm.jsx'
 import './Mood.css';
 import moment from 'moment';
-import {getStartSleepTime, getEndSleepTime, getStartPhoneTime, getEndPhoneTime, sleepToggle, phoneToggle} from 'states/actions.js';
+import {getStartSleepTime, getEndSleepTime, getStartPhoneTime, getEndPhoneTime, sleepToggle, phoneToggle, breakFastToggle} from 'states/actions.js';
 import {listReminders, createReminders} from 'api/reminder.js'
 import {listSleepTime, createSleepTime} from 'api/sleep.js';
 import {listPhoneTime, createPhoneTime} from 'api/phone.js'
@@ -45,6 +45,8 @@ class Mood extends React.Component {
         this.sleepTime = new Date();
         this.diff = 0;
         this.phoneDiff = 0;
+        this.breakFast = 0;
+        this.breakfast;
         this.handleCreatePost = this.handleCreatePost.bind(this);
         // this.handleCreateSleep = this.handleCreateSleep.bind(this);
         // this.handleCreateVote = this.handleCreateVote.bind(this);
@@ -59,6 +61,7 @@ class Mood extends React.Component {
         this.phoneToggle = this.phoneToggle.bind(this);
         this.weatherToggle = this.weatherToggle.bind(this);
         this.getLocation = this.getLocation.bind(this);
+        this.breakfastToggle = this.breakfastToggle.bind(this);
     }
 
     componentDidMount() {
@@ -86,6 +89,14 @@ class Mood extends React.Component {
         console.log(this.state);
         document.body.className = `weather-bg ${group}`;
         document.querySelector('.weather-bg .mask').className = `mask ${masking ? 'masking' : ''}`;
+
+        if(this.breakFast === 1)this.breakfast = '超營養蛋餅';
+        else if(this.breakFast === 2)this.breakfast = '超營養三角飯糰';
+        else if(this.breakFast === 3)this.breakfast = '超營養蔥抓絣';
+        else if(this.breakFast === 4)this.breakfast = '超營養吐司';
+        else if(this.breakFast === 5)this.breakfast = '超營養鐵板麵';
+        else if(this.breakFast === 6)this.breakfast = '超營養薯餅';
+        else if(this.breakFast === 7)this.breakfast = '超營養漢堡';
 
         return (
             /*<div className='today'>
@@ -116,13 +127,13 @@ class Mood extends React.Component {
                   <div id="buttongroup">
                      <Button color="warning" onClick = {this.getEndSleepTime} id="icon1" ><img src={`images/icon3.png`} id="image1"/></Button>
 
-                     <Modal isOpen={this.props.sleepToggle} toggle={this.toggle} className={this.props.className}>
-                        <ModalHeader toggle={this.toggle}>Total Sleep Time</ModalHeader>
+                     <Modal isOpen={this.props.breakFastToggle} toggle={this.toggle} className={this.props.className}>
+                        <ModalHeader toggle={this.toggle}>早上吃早餐 頭好壯壯</ModalHeader>
                         <ModalBody>
-                            {this.diff}
+                            推薦早餐：{this.breakfast}
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="secondary" onClick={this.sleepToggle}>X</Button>
+                            <Button color="secondary" onClick={this.breakfastToggle}>X</Button>
                         </ModalFooter>
                     </Modal>
 
@@ -160,7 +171,15 @@ class Mood extends React.Component {
                         </ModalFooter>
                     </Modal>
                      <Button color="warning" id="icon4" onClick = {this.getStartSleepTime}><img src={`images/icon2.png`} id="image4"/></Button>
-
+                     <Modal isOpen={this.props.sleepToggle} toggle={this.toggle} className={this.props.className}>
+                        <ModalHeader toggle={this.toggle}>Total Sleep Time</ModalHeader>
+                        <ModalBody>
+                            {this.diff}
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="secondary" onClick={this.sleepToggle}>X</Button>
+                        </ModalFooter>
+                    </Modal>
                 </div>
 </Col>
 <Col>
@@ -189,6 +208,10 @@ class Mood extends React.Component {
 
     }
 
+    breakfastToggle(){
+        this.props.dispatch(breakFastToggle());
+    }
+
     sleepToggle() {
         this.props.dispatch(sleepToggle());
     }
@@ -198,22 +221,30 @@ class Mood extends React.Component {
     }
 
     getStartSleepTime() {
-        let startSleepTime = new Date();
-        this.sleepTime = new Date();
-        this.props.dispatch(getStartSleepTime(startSleepTime));
+        if(this.props.sleep === false){
+          let startSleepTime = new Date();
+          this.sleepTime = new Date();
+          this.props.dispatch(getStartSleepTime(startSleepTime));
+        }else {
+          let endSleepTime = new Date();
+          this.diff = moment.utc(moment(endSleepTime,"DD/MM/YYYY HH:mm:ss").diff(moment(this.sleepTime,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
+
+          var diff = moment.utc(moment(endSleepTime,"DD/MM/YYYY HH:mm:ss").diff(moment(this.sleepTime,"DD/MM/YYYY HH:mm:ss"))).format("X");
+          console.log(this.diff);
+          this.props.dispatch(getEndSleepTime(endSleepTime,diff));
+          this.props.dispatch(sleepToggle());
+          // var x = moment(this.sleepTime,"DD/MM");
+          // console.log(x);
+          this.handleCreateSleep(this.sleepTime, endSleepTime, diff);
+        }
+
     }
 
     getEndSleepTime() {
-        let endSleepTime = new Date();
-        this.diff = moment.utc(moment(endSleepTime,"DD/MM/YYYY HH:mm:ss").diff(moment(this.sleepTime,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
-
-        var diff = moment.utc(moment(endSleepTime,"DD/MM/YYYY HH:mm:ss").diff(moment(this.sleepTime,"DD/MM/YYYY HH:mm:ss"))).format("X");
-        console.log(this.diff);
-        this.props.dispatch(getEndSleepTime(endSleepTime,diff));
-        this.props.dispatch(sleepToggle());
-        // var x = moment(this.sleepTime,"DD/MM");
-        // console.log(x);
-        this.handleCreateSleep(this.sleepTime, endSleepTime, diff);
+        // 蛋餅、漢堡、吐司、三角飯糰、薯餅、蔥抓餅、鐵板麵
+        this.breakFast = Math.floor((Math.random() * 7) + 1);
+        console.log(this.breakFast);
+        this.props.dispatch(breakFastToggle());
     }
 
     phoneTime() {
@@ -364,6 +395,7 @@ export default connect((state) => {
         ...state.sleep,
         ...state.phone,
         ...state.weather,
+        ...state.breakFast,
         unit: state.unit
     };
 })(Mood);
