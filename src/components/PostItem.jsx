@@ -8,6 +8,7 @@ import moment from 'moment';
 import {getMoodIcon} from 'utilities/weather.js';
 
 import './PostItem.css';
+var FontAwesome = require('react-fontawesome');
 
 export default class PostItem extends React.Component {
     static propTypes = {
@@ -28,7 +29,7 @@ export default class PostItem extends React.Component {
         super(props);
 
         this.state = {
-            tooltipOpen: false
+            check: false
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -49,7 +50,21 @@ export default class PostItem extends React.Component {
         return (
             <div className='post-item d-flex flex-column' onClick={this.handleClick}>
                 <div className='post d-flex'>
-                    <div className='mood'><i className={getMoodIcon(mood)}></i></div>
+                    <div className='mood'>
+                        {!this.state.check && <FontAwesome
+                            className='super-crazy-colors'
+                            name='square-o'
+                            size='2x'
+                            style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+                        />}
+                        {this.state.check &&<FontAwesome
+                            className='super-crazy-colors'
+                            name='check-square-o'
+                            size='2x'
+                            style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+                        />}
+                        </div>
+                        
                     <div className='wrap'>
                         <div className='ts'>{moment(ts * 1000).calendar()}</div>
                         <div className='text'>{text}</div>
@@ -84,7 +99,7 @@ export default class PostItem extends React.Component {
 
     handleClick() {
         this.setState({
-          tooltipOpen: true
+          check: true
         });
     }
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Develop server URL
-const sleepBaseUrl = 'http://localhost:3080/api';
+const sleepBaseUrl = 'http://localhost:3020/api';
 
 // Staging server URL
 // const postBaseUrl = 'http://weathermood-staging.us-west-2.elasticbeanstalk.com/api';

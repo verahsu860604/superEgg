@@ -68,14 +68,14 @@ export default class Main extends React.Component {
                                     <NavbarBrand className='text-info' href="/">WeatherMood</NavbarBrand>
                                     <Collapse isOpen={this.state.navbarToggle} navbar>
                                         <Nav navbar>
-                                            <NavItem>
+                                            {/* <NavItem>
                                                 <NavLink tag={Link} to='/'>Today</NavLink>
                                             </NavItem>
                                             <NavItem>
                                                 <NavLink tag={Link} to='/forecast'>Forecast</NavLink>
-                                            </NavItem>
+                                            </NavItem> */}
                                             <NavItem>
-                                                <NavLink tag={Link} to='/home'>Home</NavLink>
+                                                <NavLink tag={Link} to='/'>Home</NavLink>
                                             </NavItem>
                                             <NavItem>
                                                 <NavLink tag={Link} to='/stats'>Stats</NavLink>
@@ -92,13 +92,13 @@ export default class Main extends React.Component {
                             </div>
                         </div>
 
-                        <Route exact path="/" render={() => (
+                        {/* <Route exact path="/" render={() => (
                             <Today searchText={this.state.searchText} />
                         )}/>
                         <Route exact path="/forecast" render={() => (
                             <Forecast />
-                        )}/>
-                        <Route exact path="/home" render={() => (
+                        )}/> */}
+                        <Route exact path="/" render={() => (
                             <Mood />
                         )}/>
                         <Route exact path="/stats" render={() => (

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Alert, Container,  Row, Col, Modal, ModalBody, ModalFooter, ModalHeader, Button} from 'reactstrap';
+import {Alert, Container,  Row, Col, Modal, ModalBody, ModalFooter, ModalHeader, Button,Table} from 'reactstrap';
 import {connect} from 'react-redux';
 // import { CookiesProvider, withCookies, Cookies, cookie } from 'react-cookie';
 import WeatherDisplay from 'components/WeatherDisplay.jsx';
@@ -104,12 +104,18 @@ class Mood extends React.Component {
                     }
                 </div>
             </div>*/
-            <div className='row'>
-            <div className='col-sm-8'>
-                <div className='row'>
-                    <div className='col-sm-6'>
-                     <img src={`images/icon1.png`} onClick = {this.getEndSleepTime}/>
-                     </div>
+            <div id="interface">
+              <Container>
+              <Row>
+              <Col>
+              &nbsp;
+              </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <div id="buttongroup">
+                     <Button color="warning" onClick = {this.getEndSleepTime} id="icon1" ><img src={`images/icon3.png`} id="image1"/></Button>
+
                      <Modal isOpen={this.props.sleepToggle} toggle={this.toggle} className={this.props.className}>
                         <ModalHeader toggle={this.toggle}>Total Sleep Time</ModalHeader>
                         <ModalBody>
@@ -119,9 +125,9 @@ class Mood extends React.Component {
                             <Button color="secondary" onClick={this.sleepToggle}>X</Button>
                         </ModalFooter>
                     </Modal>
-                     <div className='col-sm-6'>
-                     <img src={`images/icon1.png`} onClick = {this.popWeather}/>
-                     </div>
+
+                     <Button color="warning" onClick = {this.popWeather} id="icon2" ><img src={`images/icon4.png`} id="image2"/></Button>
+
                      <Modal isOpen={this.props.weatherToggle} toggle={this.toggle} className={this.props.className}>
                         <ModalHeader toggle={this.toggle}>Current Weather in {this.props.city}</ModalHeader>
                         <ModalBody>
@@ -140,11 +146,10 @@ class Mood extends React.Component {
                             <Button color="secondary" onClick={this.weatherToggle}>X</Button>
                         </ModalFooter>
                     </Modal>
-                </div>
-                <div className='row'>
-                    <div className='col-sm-6'>
-                     <img src={`images/icon1.png`} onClick = {this.phoneTime}/>
-                     </div>
+
+
+                     <Button color="warning" onClick = {this.phoneTime} id="icon3" ><img src={`images/icon1.png`} id="image3"/></Button>
+
                      <Modal isOpen={this.props.phoneToggle} toggle={this.toggle} className={this.props.className}>
                         <ModalHeader toggle={this.toggle}>Total Phone Time</ModalHeader>
                         <ModalBody>
@@ -154,22 +159,26 @@ class Mood extends React.Component {
                             <Button color="secondary" onClick={this.phoneToggle}>X</Button>
                         </ModalFooter>
                     </Modal>
-                     <div className='col-sm-6'>
-                     <img src={`images/icon1.png`} onClick = {this.getStartSleepTime}/>
-                     </div>
-                </div>
-            </div>
+                     <Button color="warning" id="icon4" onClick = {this.getStartSleepTime}><img src={`images/icon2.png`} id="image4"/></Button>
 
-            <div className='col-sm-4'>
-                <div className='reminder'>
+                </div>
+</Col>
+<Col>
+
+
                     <ReminderForm onPost={this.handleCreatePost} />
                     <PostList posts={posts} onVote={this.handleCreateVote} />{
                         postLoading &&
                         <Alert color='warning' className='loading'>Loading...</Alert>
                     }
-                </div>
-            </div>
-
+                  </Col>
+                </Row>
+                    <Row>
+                    <Col>
+                    &nbsp;
+                    </Col>
+                    </Row>
+                    </Container>
             </div>
 
         );
