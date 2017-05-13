@@ -9,59 +9,68 @@ import {getMoodIcon} from 'utilities/weather.js';
 
 import './PostItem.css';
 var FontAwesome = require('react-fontawesome');
-
+import {deletePost, listPost} from 'api/posts.js'
 export default class PostItem extends React.Component {
     static propTypes = {
         id: PropTypes.string,
         text: PropTypes.string,
-        mood: PropTypes.string,
-        clearVotes: PropTypes.number,
-        cloudsVotes: PropTypes.number,
-        drizzleVotes: PropTypes.number,
-        rainVotes: PropTypes.number,
-        thunderVotes: PropTypes.number,
-        snowVotes: PropTypes.number,
-        windyVotes: PropTypes.number,
-        onVote: PropTypes.func
+        doneTs: PropTypes.number
+        // mood: PropTypes.string,
+        // clearVotes: PropTypes.number,
+        // cloudsVotes: PropTypes.number,
+        // drizzleVotes: PropTypes.number,
+        // rainVotes: PropTypes.number,
+        // thunderVotes: PropTypes.number,
+        // snowVotes: PropTypes.number,
+        // windyVotes: PropTypes.number,
+        // onVote: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            check: false
+            check: false,
+            display: true
         };
 
         this.handleClick = this.handleClick.bind(this);
-        this.handleTooltipToggle = this.handleTooltipToggle.bind(this);
-        this.handleClearVote = this.handleClearVote.bind(this);
-        this.handleCloudsVote = this.handleCloudsVote.bind(this);
-        this.handleDrizzleVote = this.handleDrizzleVote.bind(this);
-        this.handleRainVote = this.handleRainVote.bind(this);
-        this.handleThunderVote = this.handleThunderVote.bind(this);
-        this.handleSnowVote = this.handleSnowVote.bind(this);
-        this.handleWindyVote = this.handleWindyVote.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        // this.handleTooltipToggle = this.handleTooltipToggle.bind(this);
+        // this.handleClearVote = this.handleClearVote.bind(this);
+        // this.handleCloudsVote = this.handleCloudsVote.bind(this);
+        // this.handleDrizzleVote = this.handleDrizzleVote.bind(this);
+        // this.handleRainVote = this.handleRainVote.bind(this);
+        // this.handleThunderVote = this.handleThunderVote.bind(this);
+        // this.handleSnowVote = this.handleSnowVote.bind(this);
+        // this.handleWindyVote = this.handleWindyVote.bind(this);
     }
 
     render() {
         const {id, text, mood, ts} = this.props;
         const {tooltipOpen} = this.state;
-
+        console.log(this.state);
         return (
-            <div className='post-item d-flex flex-column' onClick={this.handleClick}>
+            <div>
+            <div className={this.state.display?'hidden':'text'}>
+                Memo Deleted.    
+            </div>
+            <div className={this.state.display?'post-item d-flex flex-column': 'hidden'}>
                 <div className='post d-flex'>
                     <div className='mood'>
                         {!this.state.check && <FontAwesome
                             className='super-crazy-colors'
                             name='square-o'
-                            size='2x'
+                            size='lg'
                             style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+                            onClick={this.handleClick}
                         />}
                         {this.state.check &&<FontAwesome
                             className='super-crazy-colors'
                             name='check-square-o'
-                            size='2x'
+                            size='lg'
                             style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+                            onClick={this.handleClick}
                         />}
                         </div>
                         
@@ -69,6 +78,17 @@ export default class PostItem extends React.Component {
                         <div className='ts'>{moment(ts * 1000).calendar()}</div>
                         <div className='text'>{text}</div>
                     </div>
+
+                    <div className='delete'>
+                        <FontAwesome
+                            className='super-crazy-colors'
+                            name='trash'
+                            size='2x'
+                            style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+                            onClick = {this.handleDelete}
+                        />
+                    </div>  
+                </div>
                 </div>
                 {/*<div className='vote d-flex justify-content-end'>
                     <div className='vote-results'>
@@ -99,62 +119,74 @@ export default class PostItem extends React.Component {
 
     handleClick() {
         this.setState({
-          check: true
+          check: !this.state.check
         });
     }
-
-    handleTooltipToggle() {
-        this.setState((prevState, props) => ({
-            tooltipOpen: !prevState.tooltipOpen
-        }));
-    }
-
-    handleClearVote() {
-        this.props.onVote(this.props.id, 'Clear');
+    
+    handleDelete(){
+        if(!this.props.doneTs){
         this.setState({
-          tooltipOpen: false
+            display: false
+        })
+        deletePost(this.props.id).then(() => {
+            //listPost();
+        }).catch(err => {
+            console.error('Error deleting posts', err);
         });
+        }
     }
+    // handleTooltipToggle() {
+    //     this.setState((prevState, props) => ({
+    //         tooltipOpen: !prevState.tooltipOpen
+    //     }));
+    // }
 
-    handleCloudsVote() {
-        this.props.onVote(this.props.id, 'Clouds');
-        this.setState({
-          tooltipOpen: false
-        });
-    }
+    // handleClearVote() {
+    //     this.props.onVote(this.props.id, 'Clear');
+    //     this.setState({
+    //       tooltipOpen: false
+    //     });
+    // }
 
-    handleDrizzleVote() {
-        this.props.onVote(this.props.id, 'Drizzle');
-        this.setState({
-          tooltipOpen: false
-        });
-    }
+    // handleCloudsVote() {
+    //     this.props.onVote(this.props.id, 'Clouds');
+    //     this.setState({
+    //       tooltipOpen: false
+    //     });
+    // }
 
-    handleRainVote() {
-        this.props.onVote(this.props.id, 'Rain');
-        this.setState({
-          tooltipOpen: false
-        });
-    }
+    // handleDrizzleVote() {
+    //     this.props.onVote(this.props.id, 'Drizzle');
+    //     this.setState({
+    //       tooltipOpen: false
+    //     });
+    // }
 
-    handleThunderVote() {
-        this.props.onVote(this.props.id, 'Thunder');
-        this.setState({
-          tooltipOpen: false
-        });
-    }
+    // handleRainVote() {
+    //     this.props.onVote(this.props.id, 'Rain');
+    //     this.setState({
+    //       tooltipOpen: false
+    //     });
+    // }
 
-    handleSnowVote() {
-        this.props.onVote(this.props.id, 'Snow');
-        this.setState({
-          tooltipOpen: false
-        });
-    }
+    // handleThunderVote() {
+    //     this.props.onVote(this.props.id, 'Thunder');
+    //     this.setState({
+    //       tooltipOpen: false
+    //     });
+    // }
 
-    handleWindyVote() {
-        this.props.onVote(this.props.id, 'Windy');
-        this.setState({
-          tooltipOpen: false
-        });
-    }
+    // handleSnowVote() {
+    //     this.props.onVote(this.props.id, 'Snow');
+    //     this.setState({
+    //       tooltipOpen: false
+    //     });
+    // }
+
+    // handleWindyVote() {
+    //     this.props.onVote(this.props.id, 'Windy');
+    //     this.setState({
+    //       tooltipOpen: false
+    //     });
+    // }
 }

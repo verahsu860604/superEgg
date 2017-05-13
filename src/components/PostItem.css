@@ -16,7 +16,14 @@
     width: 100%;
     padding-left: 0.75rem;
 }
-
+.hidden {
+    display: none;
+}
+.post-item .delete{
+    position:absolute;
+    bottom:2%;
+    right:2%;
+}
 .post-item .ts {
     color: #bcbcbc;
     font-size: 0.875rem;

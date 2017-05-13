@@ -17,10 +17,14 @@ export function listPosts() {
 function _listPosts() {
     let postString = localStorage.getItem(postKey);
     let posts = postString ? JSON.parse(postString) : [];
+    posts = posts.filter(t => {
+             return !t.doneTs;
+         });
     return posts;
 };
 
 export function createPost(text) {
+    // localStorage.clear();
     return new Promise((resolve, reject) => {
         resolve(_createPost(text));
     });
@@ -31,7 +35,8 @@ function _createPost(text) {
     const newPost = {
         id: uuid(),
         text: text,
-        ts: moment().unix()
+        ts: moment().unix(),
+        doneTs: null
     };
     const posts = [
         newPost,
@@ -41,6 +46,27 @@ function _createPost(text) {
     return newPost;
 }
 
+
+export function deletePost(id) {
+    return new Promise((resolve, reject) => {
+        _deletePost(id);
+        resolve();
+    });
+}
+
+// Simulated server-side code
+function _deletePost(id) {
+    let todos = _listPosts();
+    for(let t of todos) {
+        if(t.id === id) {
+            t.doneTs = moment().unix();
+            break;
+        }
+    }
+    localStorage.setItem(postKey, JSON.stringify(todos));
+}
+
+
 export function createVote(id, mood) {
     return new Promise((resolve, reject) => {
         _createVote(id, mood);
@@ -48,7 +74,6 @@ export function createVote(id, mood) {
     });
 }
 
-// Simulated server-side code
 function _createVote(id, mood) {
     const m = ['clearVotes', 'cloudsVotes', 'clearVotes', 'drizzleVotes', 'drizzleVotes', 'rainVotes', 'thunderVotes', 'snowVotes', 'windyVotes']
     const posts = _listPosts().map(p => {
