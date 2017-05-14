@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Develop server URL
-const phoneBaseUrl = 'http://superegg-server-dev.us-west-2.elasticbeanstalk.com/api';
+const phoneBaseUrl = 'http://supereggmid-server-dev.us-west-2.elasticbeanstalk.com/api';
 
 // Staging server URL
 // const postBaseUrl = 'http://weathermood-staging.us-west-2.elasticbeanstalk.com/api';
