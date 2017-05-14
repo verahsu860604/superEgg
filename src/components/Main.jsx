@@ -183,6 +183,18 @@ export default class Main extends React.Component {
                                               </NavLink>
                                               </NavItem>
                                               <NavItem>
+                                                <NavLink tag={Link} to='/en' onClick = {this.guideOnClick}>
+                                                <FontAwesome
+                                                  className='super-crazy-colors'
+                                                  name='lightbulb-o'
+                                                  size='1x'
+                                                  style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+                                                />
+                                                &nbsp;
+                                                {this.state.en?'Guide':'指南'}
+                                              </NavLink>
+                                              </NavItem>
+                                              <NavItem>
                                               &nbsp;&nbsp;
 
                                               <a href='https://github.com/verahsu860604'  id="TooltipExample">

@@ -10,8 +10,8 @@ import './Mood.css';
 import moment from 'moment';
 import PostList_en from 'components/PostList_en.jsx';
 import {getStartSleepTime, getEndSleepTime, getStartPhoneTime, getEndPhoneTime, sleepToggle, phoneToggle, breakFastToggle} from 'states/actions.js';
-import {listSleepTime, createSleepTime} from 'api/sleep.js';
-import {listPhoneTime, createPhoneTime} from 'api/phone.js'
+import {listSleepTime, createSleepTime, listSleepTimeServer, createSleepTimeServer} from 'api/sleep.js';
+import {listPhoneTime, createPhoneTime, listPhoneTimeServer, createPhoneTimeServer} from 'api/phone.js'
 var FontAwesome = require('react-fontawesome');
 class Mood_en extends React.Component {
     static propTypes = {
@@ -303,7 +303,7 @@ class Mood_en extends React.Component {
             var diff = moment.utc(moment(time,"DD/MM/YYYY HH:mm:ss").diff(moment(startPhoneTime,"DD/MM/YYYY HH:mm:ss"))).format("X");
             this.props.dispatch(getEndPhoneTime(time,diff));
             this.props.dispatch(phoneToggle());
-            this.handleCreatePhone(this.props.startPhoneTime, diff);
+            this.handleCreatePhone(this.props.startPhoneTime, 0, diff);
         }
         }
     }
@@ -357,6 +357,11 @@ class Mood_en extends React.Component {
         }).catch(err => {
             console.error('Error creating SleepTime', err);
         });
+        createSleepTimeServer(start, end, diff).then(() => {
+            listSleepTimeServer();
+        }).catch(err => {
+            console.error('Error creating SleepTime', err);
+        });
     }
     listPhoneTime() {
        // console.log('hi');
@@ -379,12 +384,17 @@ class Mood_en extends React.Component {
         });
     }
 
-    handleCreatePhone(start, diff) {
+    handleCreatePhone(start, end, diff) {
         //console.log(diff);
         createPhoneTime(start, diff).then(() => {
             this.listPhoneTime();
         }).catch(err => {
             console.error('Error creating phoneTime', err);
+        });
+        createPhoneTimeServer(start, end ,diff).then(() => {
+            listPhoneTimeServer();
+        }).catch(err => {
+            console.error('Error creating phoneTime e', err);
         });
     }
 
