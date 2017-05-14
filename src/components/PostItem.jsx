@@ -36,20 +36,15 @@ export default class PostItem extends React.Component {
 
         this.handleClick = this.handleClick.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
-        // this.handleTooltipToggle = this.handleTooltipToggle.bind(this);
-        // this.handleClearVote = this.handleClearVote.bind(this);
-        // this.handleCloudsVote = this.handleCloudsVote.bind(this);
-        // this.handleDrizzleVote = this.handleDrizzleVote.bind(this);
-        // this.handleRainVote = this.handleRainVote.bind(this);
-        // this.handleThunderVote = this.handleThunderVote.bind(this);
-        // this.handleSnowVote = this.handleSnowVote.bind(this);
-        // this.handleWindyVote = this.handleWindyVote.bind(this);
-    }
 
+    }
+    // componentDidMount() {
+    //    this.listPost();
+    // }
     render() {
         const {id, text, mood, ts} = this.props;
         const {tooltipOpen} = this.state;
-        console.log(this.state);
+        
         return (
             <div>
             <div className={this.state.display?'hidden':'text'}>

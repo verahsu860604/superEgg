@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+var FontAwesome = require('react-fontawesome');
 import "./Stats.css"
 import SleepStats_en from 'components/SleepStats_en.jsx';
 import PhoneStats_en from 'components/PhoneStats_en.jsx';
@@ -29,8 +29,21 @@ export default class Stats_en extends React.Component {
             <div>
               <div className="bbb">
                 <ButtonGroup>
-                    <Button onClick = {this.getSleepChart} color = {color1} >Sleep time</Button>{' '}
-                    <Button onClick = {this.getPhoneChart} color = {color2} >Phone time</Button>
+                    <Button onClick = {this.getSleepChart} color = {color1} >
+                        <FontAwesome
+                        className='super-crazy-colors'
+                        name='bed'
+                        size='1x'
+                        style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+                      />&nbsp;Sleep time</Button>{' '}
+                    <Button onClick = {this.getPhoneChart} color = {color2} >
+                        <FontAwesome
+                        className='super-crazy-colors'
+                        name='tablet'
+                        size='1x'
+                        style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+                      />&nbsp;
+                      Phone time</Button>
                   </ButtonGroup>
               </div>
                 <div>

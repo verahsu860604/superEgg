@@ -49,3 +49,39 @@
 #facebok{
     border-radius: 9999px;
 }
+
+#fbicon{
+  color: #3b5998;
+}
+
+.s{
+  width: 45px;
+  height: 45px;
+  padding: 5px 5px 5px 0;
+  border-radius: 10px;
+}
+
+#guide .modal-body{
+    /*border: 0px 0px;
+    padding:9px 15px;
+    border-bottom:1px solid rgba(243, 173, 16, 0.5);*/
+    background-color: white;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+ }
+
+/*#cell1 {
+  border-left:  5px solid rgba(133,231,255,0.5);
+}
+
+#cell2 {
+  border-left:  5px solid white;
+}
+
+#cell3 {
+  border-left:  5px solid rgba();
+}*/

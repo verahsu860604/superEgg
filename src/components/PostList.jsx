@@ -28,7 +28,7 @@ export default class PostList extends React.Component {
 
     render() {
         const {posts} = this.props;
-    
+        console.log(this.props);
         let children = (
             <ListGroupItem className='empty d-flex justify-content-center align-items-center'>
                 <div className='empty-text'>你還沒加入待辦事項喔！<br /></div>

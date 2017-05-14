@@ -64,6 +64,7 @@ class Mood_en extends React.Component {
         // this.props.dispatch(getWeather('Hsinchu', this.props.unit));
         // this.listPosts(this.props.searchText);
         this.getLocation();
+        this.listPosts();
     }
 
     componentWillUnmount() {
@@ -88,7 +89,7 @@ class Mood_en extends React.Component {
         var status;
         if(this.props.phone) status = 'Using phone';
         else if(this.props.sleep) status = 'Sleeping';
-        else status = 'wake';
+        else status = 'awake';
         if(this.breakFast === 1)this.breakfast = 'Nutritious Egg Cake';
         else if(this.breakFast === 2)this.breakfast = 'Nutritious Triangle rice balls';
         else if(this.breakFast === 3)this.breakfast = 'Nutritious Green Onion Pan Cake';
@@ -104,6 +105,14 @@ class Mood_en extends React.Component {
         else if(this.breakFast === 5)bbimg = 'images/5.jpg';
         else if(this.breakFast === 6)bbimg = 'images/6.jpg';
         else if(this.breakFast === 7)bbimg = 'images/7.jpg';
+        var wea;
+        if(this.props.group==='thunder')wea = 'tstorms';
+        else if(this.props.group==='drizzle')wea = 'chancerain';
+        else if(this.props.group==='rain')wea = 'rain';
+        else if(this.props.group==='snow')wea = 'chancesnow';
+        else if(this.props.group==='atmosphere')wea = 'fog';
+        else if(this.props.group==='clear')wea = 'clear';
+        else if(this.props.group==='clouds')wea = 'cloudy';
 
 
 
@@ -116,14 +125,14 @@ class Mood_en extends React.Component {
               </Col>
               </Row>
               <Row>
-                <Col>
+                <Col xs="4" sm="7">
                   <div id="buttongroup">
                      <Button color="warning" onClick = {this.getEndSleepTime} id="icon1" ><img src={`images/icon-eat.png`} id="image1"/></Button>
 
                      <Modal isOpen={this.props.breakFastToggle} toggle={this.toggle} className={this.props.className}>
-                        <ModalHeader toggle={this.toggle}>Breakfast Feeds Your Brian!</ModalHeader>
+                        <ModalHeader toggle={this.toggle}>Breakfast Feeds Your Brain!</ModalHeader>
                         <ModalBody>
-                            <strong>RECOMMENDED:</strong>{this.breakfast}
+                            <strong>RECOMMENDED&nbsp;:&nbsp;</strong>{this.breakfast}
                             <br />
                             <img src={bbimg} id="b"/>
                         </ModalBody>
@@ -138,8 +147,9 @@ class Mood_en extends React.Component {
                         <ModalHeader toggle={this.toggle}>Current Weather in {this.props.city}</ModalHeader>
                         <ModalBody>
                             <div className={`weather-display `}>
-                                <img src={`images/w-${this.props.group}.png`}/>
-                                <p className='description'>{`${this.props.description}`}</p>
+                                {/* <img src={`images/w-${this.props.group}.png`}/> */}
+                                <img src={`images/${wea}.png`}/>
+                                {/* <p className='description'>{`${this.props.description}`}</p> */}
                                 <h1 className='temp'>
                                     <span className='display-3'>{this.props.temp.toFixed(0)}&ordm;</span>
                                     &nbsp;{(this.props.unit === 'metric')
@@ -187,8 +197,9 @@ class Mood_en extends React.Component {
                             &nbsp;&nbsp;Sleep time: {this.diff}
                             <br />
                             <div className={`weather-display `}>
-                                <img src={`images/w-${this.props.group}.png`}/>
-                                <p className='description'>{`${this.props.description}`}</p>
+                                {/* <img src={`images/w-${this.props.group}.png`}/> */}
+                                <img src={`images/${wea}.png`}/>
+                                {/* <p className='description'>{`${this.props.description}`}</p> */}
                                 <h1 className='temp'>
                                     <span className='display-3'>{this.props.temp.toFixed(0)}&ordm;</span>
                                     &nbsp;{(this.props.unit === 'metric')
@@ -201,17 +212,26 @@ class Mood_en extends React.Component {
                             <Button color="secondary" onClick={this.sleepToggle}>X</Button>
                         </ModalFooter>
                     </Modal>
-                    <Button color="warning" id="icon5" href='http://www.appledaily.com.tw/appledaily/todayapple'><img src={`images/icon5.png`} id="image5"/></Button>
+                    <Button color="warning" id="icon5" href='http://www.bbc.com/news/av/10318236/headlines-from-bbc-news'><img src={`images/icon5.png`} id="image5"/></Button>
                 </div>
                 <br />
-                <Alert color="success">
+                {/*<Alert color="success">
                     <strong>Your status:</strong>&nbsp;&nbsp;{status}
-                </Alert>
+                </Alert>*/}
 </Col>
-<Col>
-
+<Col xs="8" sm="5">
+  <Alert color="success">
+    <FontAwesome
+      className='super-crazy-colors'
+      name='bullhorn'
+      size='1x'
+      style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+    />&nbsp;
+      <strong>Your Status:</strong>&nbsp;{status}
+  </Alert>
 
                     <ReminderForm_en onPost={this.handleCreatePost} />
+
                     <PostList_en posts={posts} onVote={this.handleCreateVote} />
                   </Col>
                 </Row>
@@ -288,7 +308,7 @@ class Mood_en extends React.Component {
         }
     }
 
-    
+
     listSleepTime() {
        // console.log('hi');
         this.setState({

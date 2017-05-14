@@ -49,25 +49,3 @@ export function breakFastToggle() {
         type: '@BREAKFAST/TOGGLE',
     }
 }
-
-/* login */
-
-export function loginToggle() {
-    return {
-        type: '@LOGIN/LOGIN_TOGGLE',
-    }
-}
-
-export function fetch_userid(userid){
-    return {
-        type: '@LOGIN/FETCH_USERID',
-        userid,
-    }
-}
-
-export function fetch_passwd(password){
-    return {
-        type: '@LOGIN/FETCH_PASSWD',
-        password,
-    }
-}

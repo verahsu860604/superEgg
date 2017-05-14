@@ -9,7 +9,7 @@ import {
     DropdownMenu,
     DropdownItem
 } from 'reactstrap';
-
+var FontAwesome = require('react-fontawesome');
 import {getMoodIcon} from 'utilities/weather.js';
 
 import './ReminderForm.css';
@@ -64,7 +64,11 @@ export default class ReminderForm extends React.Component {
                         </ButtonDropdown>*/}
                     </div>
                     <Input className='input' type='textarea' getRef={el => {this.inputEl = el}} value={this.state.inputValue} onChange={this.handleInputChange} placeholder="明天有什麼待辦事項呢？"></Input>
-                    <Button className='btn-post align-self-end' color="warning" onClick={this.handlePost}>加入清單</Button>
+                    <Button className='btn-post align-self-end' color="warning" onClick={this.handlePost}><FontAwesome		
+                        className='super-crazy-colors'		
+                        name='pencil'		
+                        style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}		
+                      /></Button>
                 </Alert>
             </div>
         );

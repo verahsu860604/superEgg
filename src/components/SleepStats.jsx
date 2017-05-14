@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'reactstrap';
 import "./SleepStats.css";
 import {listSleepTime, createSleepTime} from 'api/sleep.js';
+import {Alert, Container,  Row, Col, Modal, ModalBody, ModalFooter, ModalHeader, Button,Table} from 'reactstrap';
 import {listPhoneTime, createPhoneTime} from 'api/phone.js'
 import { Chart } from 'react-google-charts';
 import moment from 'moment';
@@ -56,35 +56,36 @@ export default class SleepStats extends React.Component {
 
   render() {
       var longest = 0;
-      var shortest = -1;
+      var shortest = 0;
       var sum = 0;
+      var dur;
       const data = this.state.data;
       var array = [['Time to sleep', 'Duration', { role: 'style' }]];
       for(var i = 0;i < 7;i ++){
           var tmp;
-
+          
           var color;
 
 
 
           if(data[i] === undefined) tmp = ['No data', 0 , 'red'];
           else{
-
-              if(data[i].diff < 6)color = "#FF3333";
-              else if(data[i].diff < 8)color = "#FFDC35";
+              dur = parseInt(data[i].diff)/60;
+              if(dur < 6)color = "#FF3333";
+              else if(dur < 8)color = "#FFDC35";
               else color = "#00AA00";
 
-              tmp = [data[i].date.slice(5,10), parseInt(data[i].diff), color] ;
+              tmp = [data[i].date.slice(5,10)+' '+data[i].date.slice(11,16), dur, color] ;
 
                //longest calculation
-               if(data[i].diff > longest) longest = data[i].diff;
+               if(dur > longest) longest = dur;
                //shortest calculation
-               if(shortest === -1) {
-                  shortest = data[i].diff;
-               }else if(data[i].diff < shortest) shortest = data[i].diff;
+               if(shortest === 0) {
+                  shortest = dur;
+               }else if(dur < shortest) shortest = dur;
                //avg. calculation
 
-               sum = sum + parseInt(data[i].diff);
+               sum = sum + dur;
 
 
 
@@ -104,10 +105,10 @@ export default class SleepStats extends React.Component {
 
 
     return (
-      <div className="Container">
-      <div className="row">
-      <div className="col-2"></div>
-      <div className="col-8 sss">
+      <Container>
+      <Row>
+      <Col xs="1"></Col>
+    <Col>
       <Chart
         chartType="ColumnChart"
         data={array}
@@ -117,10 +118,10 @@ export default class SleepStats extends React.Component {
         height="350px"
         legend_toggle
       />
-      </div>
+    </Col>
       {/* <div className="col-2" style={emptyStyle}></div> */}
-
-  </div>
+<Col xs="1"></Col>
+  </Row>
     <br />
       <Table bordered style={tableStyle} >
          <thead>
@@ -132,14 +133,14 @@ export default class SleepStats extends React.Component {
          </thead>
          <tbody>
            <tr>
-             <td>{longest}</td>
-             <td>{shortest}</td>
-             <td>{(sum/7).toFixed(3)}</td>
+            <td>{longest.toFixed(0)<10?'0':''}{longest.toFixed(0)}:{(longest*60)%60<10?'0':''}{(longest*60)%60}</td>
+             <td>{shortest.toFixed(0)<10?'0':''}{shortest.toFixed(0)}:{(shortest*60)%60<10?'0':''}{(shortest*60)%60}</td>
+             <td>{(sum/7).toFixed(2)}&nbsp;分鐘</td>
            </tr>
          </tbody>
        </Table>
-
-    </div>
+       <Row>&nbsp;</Row>
+           </Container>
     );
   }
 }

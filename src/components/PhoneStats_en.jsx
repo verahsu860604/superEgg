@@ -57,34 +57,34 @@ export default class PhoneStats_en extends React.Component {
 
   render() {
       var longest = 0;
-      var shortest = -1;
+      var shortest = 0;
       var sum = 0;
       const data = this.state.data;
       var array = [['Phone Time', 'Duration',  { role: 'style' }]];
       for(var i = 0;i < 7;i ++){
           var tmp;
           var color;
-
+          var dur;
           if(data[i] === undefined) tmp = ['No data', 0, 'red'];
           else{
-
-              if(data[i].end > 30)color = "#FF3333";
-              else if(data[i].end > 15)color = "#FFDC35";
+              dur = parseInt(data[i].end)/60;
+              if(dur > 30)color = "#FF3333";
+              else if(dur > 15)color = "#FFDC35";
               else color = "#00AA00";
-
-               tmp = [data[i].date.slice(5,10), parseInt(data[i].end), color];
+              
+               tmp = [data[i].date.slice(5,10)+' '+data[i].date.slice(11,16), dur, color];
 
 
 
                //longest calculation
-               if(data[i].end > longest) longest = data[i].end;
+               if(dur > longest) longest = dur;
                //shortest calculation
-               if(shortest === -1) {
-                  shortest = data[i].end;
-               }else if(data[i].end < shortest) shortest = data[i].end;
+               if(shortest === 0) {
+                  shortest = dur;
+               }else if(dur < shortest) shortest = dur;
                //avg. calculation
 
-               sum = sum + parseInt(data[i].end);
+               sum = sum + dur;
           }
           array.push(tmp);
       }
@@ -101,10 +101,10 @@ export default class PhoneStats_en extends React.Component {
 
   
     return (
-      <div className="Container">
-      <div className="row">
-      <div className="col-2"></div>
-      <div className="col-8">
+      <Container>
+      <Row>
+      <Col xs="1"></Col>
+    <Col>
       <Chart
         chartType="ColumnChart"
         data={array}
@@ -114,29 +114,30 @@ export default class PhoneStats_en extends React.Component {
         height="350px"
         legend_toggle
       />
-      </div>
+    </Col>
       {/* <div className="col-2" style={emptyStyle}></div> */}
-
-  </div>
+<Col xs="1"></Col>
+  </Row>
     <br />
       <Table bordered style={tableStyle} >
          <thead>
            <tr>
-             <th>Longest time</th>
-             <th>Shortest time</th>
-             <th>Average time</th>
+             <th>Longest Phone Time</th>
+             <th>Shortest Phone Time</th>
+             <th>Average Phone Time</th>
            </tr>
          </thead>
          <tbody>
            <tr>
-             <td>{longest}</td>
-             <td>{shortest}</td>
-             <td>{(sum/7).toFixed(3)}</td>
+             <td>{longest.toFixed(0)<10?'0':''}{longest.toFixed(0)}:{(longest*60)%60<10?'0':''}{(longest*60)%60}</td>		     
+             <td>{shortest.toFixed(0)<10?'0':''}{shortest.toFixed(0)}:{(shortest*60)%60<10?'0':''}{(shortest*60)%60}</td>		             
+             <td>{(sum/7).toFixed(2)}&nbsp;mins</td>
            </tr>
          </tbody>
        </Table>
 
-    </div>
+       <Row>&nbsp;</Row>
+           </Container>
     );
   }
 }
