@@ -17,31 +17,63 @@
 }
 #icon1{
   margin: 0.5rem;
-  width:auto;
+  width:37%;
 
 }
 #icon2{
   margin: 0.5rem;
-    width:auto;
+  width:37%;
 
 }
 
 #icon3{
   margin: 0.5rem;
-    width:auto;
+  width:37%;
 
 }
 
 #icon4{
   margin: 0.5rem;
-  width:auto;
+  width:37%;
 
 }
 #icon5{
   margin: 0.5rem;
-  width:auto;
+  width:37%;
 
 }
+
+@media screen and (max-width: 800px) {
+  #icon1{
+    margin: 0.5rem;
+    width:auto;
+
+  }
+  #icon2{
+    margin: 0.5rem;
+      width:auto;
+
+  }
+
+  #icon3{
+    margin: 0.5rem;
+      width:auto;
+
+  }
+
+  #icon4{
+    margin: 0.5rem;
+    width:auto;
+
+  }
+  #icon5{
+    margin: 0.5rem;
+    width:auto;
+
+  }
+}
+
+
 
 #image1{
   width:80%;
