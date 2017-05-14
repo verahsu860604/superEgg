@@ -1,35 +1,3 @@
-/* weather */
-
-// function startGetWeather(location) {
-//     return {
-//         type: '@WEATHER/START_GET_WEATHER',
-//         location
-//     };
-// }
-
-// function endGetWeather(location,code,temp) {
-//     return {
-//         type: '@WEATHER/END_GET_WEATHER',
-//         location,
-//         code,
-//         temp,
-//     };
-// }
-
-// export function getWeather(location) {
-//     return (dispatch, getState) => {
-//         dispatch(startGetWeather(location));
-
-//         return getWeatherFromApi(location).then(weather => {
-//             const {location, code, temp} = weather;
-//             dispatch(endGetWeather(location, code, temp));
-//         }).catch(err => {
-//             console.error('Error getting weather', err);
-//             dispatch(resetWeather());
-//         });
-//     };
-// };
-
 /* sleep */
 
 export function getStartSleepTime(startSleepTime) {
@@ -79,5 +47,27 @@ export function phoneToggle() {
 export function breakFastToggle() {
     return {
         type: '@BREAKFAST/TOGGLE',
+    }
+}
+
+/* login */
+
+export function loginToggle() {
+    return {
+        type: '@LOGIN/LOGIN_TOGGLE',
+    }
+}
+
+export function fetch_userid(userid){
+    return {
+        type: '@LOGIN/FETCH_USERID',
+        userid,
+    }
+}
+
+export function fetch_passwd(password){
+    return {
+        type: '@LOGIN/FETCH_PASSWD',
+        password,
     }
 }

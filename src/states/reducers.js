@@ -89,3 +89,35 @@ export function breakFast(state = initBreakFast, action) {
             };
     }
 }
+
+/* login */
+
+const initLogIn = {
+    userid: 'na',
+    password: 'na',
+    loginToggle: false,
+}
+
+export function login(state = initLogIn, action) {
+    switch(action.type) {
+        case '@LOGIN/FETCH_USERID': // 去cookie找userid
+            return {
+                ...state,
+                userid: action.userid,
+            };
+        case '@LOGIN/FETCH_PASSWD':
+            return {
+                ...state,
+                password: action.password,
+            }
+        case '@LOGIN/LOGIN_TOGGLE':
+            return {
+                ...state,
+                loginToggle: !state.loginToggle,
+            }
+        default:
+            return {
+                ...state,
+            };
+    }
+}

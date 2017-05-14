@@ -22,7 +22,7 @@ app.use('/api', phoneRouter);
 app.get('/*', (req, res) => res.redirect('/'));
 app.use(errorHandler);
 
-const port =5020;
+const port =6026;
 app.listen(port, () => {
     console.log(`Server is up and running on port ${port}...`);
 });

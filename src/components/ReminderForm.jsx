@@ -12,7 +12,7 @@ import {
 
 import {getMoodIcon} from 'utilities/weather.js';
 
-import './PostForm.css';
+import './ReminderForm.css';
 
 export default class ReminderForm extends React.Component {
     static propTypes = {

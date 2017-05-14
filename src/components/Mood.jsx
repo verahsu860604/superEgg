@@ -1,20 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Alert, Container,  Row, Col, Modal, ModalBody, ModalFooter, ModalHeader, Button,Table} from 'reactstrap';
-import {connect} from 'react-redux';
-// import { CookiesProvider, withCookies, Cookies, cookie } from 'react-cookie';
-import WeatherDisplay from 'components/WeatherDisplay.jsx';
-import WeatherForm from 'components/WeatherForm.jsx';
+import {Alert, Container,  Row, Col,
+        Modal, ModalBody, ModalFooter, ModalHeader,
+        Button,Table,
+        Form, FormGroup, Label, Input, FormText} from 'reactstrap';import {connect} from 'react-redux';
 import {cancelWeather} from 'api/open-weather-map.js';
 import {getWeather, weatherToggle} from 'states/weather-actions.js';
-import PostForm from 'components/PostForm.jsx';
-import PostList from 'components/PostList.jsx';
 import {listPosts, createPost, createVote} from 'api/posts.js';
 import ReminderForm from 'components/ReminderForm.jsx'
 import './Mood.css';
 import moment from 'moment';
-import {getStartSleepTime, getEndSleepTime, getStartPhoneTime, getEndPhoneTime, sleepToggle, phoneToggle, breakFastToggle} from 'states/actions.js';
-import {listReminders, createReminders} from 'api/reminder.js'
+import cookie from 'react-cookie';
+import PostList from './PostList.jsx';
+import {getStartSleepTime, getEndSleepTime, getStartPhoneTime, getEndPhoneTime, sleepToggle, phoneToggle, breakFastToggle, loginToggle, fetch_userid, fetch_passwd} from 'states/actions.js';
 import {listSleepTime, createSleepTime} from 'api/sleep.js';
 import {listPhoneTime, createPhoneTime} from 'api/phone.js'
 var FontAwesome = require('react-fontawesome');
@@ -49,11 +47,6 @@ class Mood extends React.Component {
         this.breakFast = 0;
         this.breakfast;
         this.handleCreatePost = this.handleCreatePost.bind(this);
-        // this.handleCreateSleep = this.handleCreateSleep.bind(this);
-        // this.handleCreateVote = this.handleCreateVote.bind(this);
-        this.handlesnow = this.handlesnow.bind(this);
-        // this.getTime = this.getTime.bind(this);
-        // this.getDiff = this.getDiff.bind(this);
         this.popWeather = this.popWeather.bind(this);
         this.getStartSleepTime = this.getStartSleepTime.bind(this);
         this.getEndSleepTime = this.getEndSleepTime.bind(this);
@@ -63,11 +56,14 @@ class Mood extends React.Component {
         this.weatherToggle = this.weatherToggle.bind(this);
         this.getLocation = this.getLocation.bind(this);
         this.breakfastToggle = this.breakfastToggle.bind(this);
+        this.loginToggle = this.loginToggle.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.login = this.login.bind(this);
     }
 
     componentDidMount() {
-        // this.props.dispatch(getWeather('Hsinchu', this.props.unit));
-        // this.listPosts(this.props.searchText);
+        this.props.dispatch(loginToggle());
         this.getLocation();
     }
 
@@ -75,12 +71,6 @@ class Mood extends React.Component {
         if (this.state.weatherLoading) {
             cancelWeather();
         }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        // if (nextProps.searchText !== this.props.searchText) {
-        //     this.listPosts(nextProps.searchText);
-        // }
     }
 
     render() {
@@ -96,7 +86,7 @@ class Mood extends React.Component {
         else status = '醒者';
         if(this.breakFast === 1)this.breakfast = '超營養蛋餅';
         else if(this.breakFast === 2)this.breakfast = '超營養三角飯糰';
-        else if(this.breakFast === 3)this.breakfast = '超營養蔥抓絣';
+        else if(this.breakFast === 3)this.breakfast = '超營養蔥抓餅';
         else if(this.breakFast === 4)this.breakfast = '超營養三明治';
         else if(this.breakFast === 5)this.breakfast = '超營養鐵板麵';
         else if(this.breakFast === 6)this.breakfast = '超營養饅頭';
@@ -113,23 +103,26 @@ class Mood extends React.Component {
 
 
         return (
-            /*<div className='today'>
-                <div>
-                    <p> {this.cook}</p>
-                </div>
-                <div className='weather'>
-                    <WeatherForm city={city} defaultUnit={unit} submitAction={getWeather} />
-                    <WeatherDisplay {...{group, description, temp, unit, masking}} day='today'/>
-                </div>
-                <div className='posts'>
-                    <PostForm onPost={this.handleCreatePost} />
-                    <PostList posts={posts} onVote={this.handleCreateVote} />{
-                        postLoading &&
-                        <Alert color='warning' className='loading'>Loading...</Alert>
-                    }
-                </div>
-            </div>*/
             <div id="interface">
+              <Modal isOpen={this.props.loginToggle} toggle={this.toggle} className={this.props.className}>
+                 <ModalHeader toggle={this.toggle}>登入</ModalHeader>
+                 <ModalBody>
+                   <Form>
+                     <FormGroup>
+                       <Label for="exampleEmail">UserID</Label>
+                       <Input type="UserID" name="userid" id="userid" placeholder="Enter your UserID" getRef={el => {this.inputEl = el}} value={this.state.inputValue} onChange={this.handleInputChange}/>
+                     </FormGroup>
+                     <FormGroup>
+                       <Label for="examplePassword">Password</Label>
+                       <Input type="password" name="password" id="userpw" placeholder="Enter your password" getRef={el => {this.inputEl = el}} value={this.state.inputValue} onChange={this.handlePasswordChange}/>
+                     </FormGroup>
+                   </Form>
+                 </ModalBody>
+                 <ModalFooter>
+                     <Button color="warning" onClick={this.login}>登入</Button>
+                     <Button color="secondary" onClick={this.loginToggle}>X</Button>
+                 </ModalFooter>
+             </Modal>
               <Container>
               <Row>
               <Col>
@@ -222,6 +215,7 @@ class Mood extends React.Component {
                             <Button color="secondary" onClick={this.sleepToggle}>X</Button>
                         </ModalFooter>
                     </Modal>
+                    <Button color="warning" id="icon5" href='http://www.appledaily.com.tw/appledaily/todayapple'><img src={`images/icon5.png`} id="image5"/></Button>
                 </div>
                 <br />
                 <Alert color="success">
@@ -250,9 +244,18 @@ class Mood extends React.Component {
         );
     }
 
-    handlesnow(){
-        alert('test!');
+    handleInputChange(e) {
+        const text = e.target.value;
+        this.props.dispatch(fetch_userid(text));
+        // this.setState({inputValue: text});
+        // if (text) {
+        //     this.setState({inputDanger: false});
+        // }
+    }
 
+    handlePasswordChange(e) {
+        const text = e.target.value;
+        this.props.dispatch(fetch_passwd(text));
     }
 
     breakfastToggle(){
@@ -265,6 +268,16 @@ class Mood extends React.Component {
 
     phoneToggle() {
         this.props.dispatch(phoneToggle());
+    }
+
+    loginToggle() {
+        this.props.dispatch(loginToggle());
+    }
+
+    login() {
+        cookie.save('userid',this.props.userid);
+        cookie.save('password',this.props.password);
+        this.props.dispatch(loginToggle());
     }
 
     getStartSleepTime() {
@@ -311,16 +324,7 @@ class Mood extends React.Component {
         }
     }
 
-    // getTime(){
-    //     this.sleepTime = new Date();
-    //     alert(this.sleepTime);
-    // }
-    //
-    // getDiff(){
-    //     const now = new Date();
-    //     var diff = moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(this.sleepTime,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss")
-    //     alert("You've slept for " + diff + '!');
-    // }
+
     listSleepTime() {
        // console.log('hi');
         this.setState({
@@ -429,13 +433,13 @@ class Mood extends React.Component {
         });
     }
 
-    handleCreateVote(id, mood) {
-        createVote(id, mood).then(() => {
-            this.listPosts(this.props.searchText);
-        }).catch(err => {
-            console.error('Error creating vote', err);
-        });
-    }
+    // handleCreateVote(id, mood) {
+    //     createVote(id, mood).then(() => {
+    //         this.listPosts(this.props.searchText);
+    //     }).catch(err => {
+    //         console.error('Error creating vote', err);
+    //     });
+    // }
 }
 
 export default connect((state) => {
@@ -444,6 +448,7 @@ export default connect((state) => {
         ...state.phone,
         ...state.weather,
         ...state.breakFast,
+        ...state.login,
         unit: state.unit
     };
 })(Mood);
